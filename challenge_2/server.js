@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
 // const router = require('express').Router()
+var controller = require('./controller');
 
 app.set('port', 3000);
 
@@ -12,19 +13,9 @@ app.use(bodyParser.urlencoded({extended: true})); // IMPT!!!
 app.use(morgan('dev'));
 app.use(cors());
 
-app.get('/csv', (req, res) => {
-	console.log('GET');
-	// res.status(200).send('RETURNING GET REQUEST');
-	// res.json(results);
-	res.send('RETURNING POST REQUEST');
-});
+app.get('/csv', controller.get);
 
-app.post('/csv', (req, res) => {
-	// res.set({'content-type': 'application/json'});
-	console.log('POST');
-	console.log('BODY', req.body);
-	res.sendStatus(201);
-});
+app.post('/csv', controller.post);
 
 app.use(express.static('client'));
 
