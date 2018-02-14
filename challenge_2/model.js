@@ -4,34 +4,31 @@ module.exports = {
 	},
 
 	post: (data, callback) => {
+		console.log('DATA IS', data);
+		console.log('TYPE', typeof(data));
+		// data = JSON.parse(data);
 		var result = [];
 
 		var csvString = (keys, length, obj) => {
 			var values = [];
-			for (var i = 0; i < length; i++) {
-				if (keys[i] !== 'children') {
-					values.push(obj[keys[i]]);
-					if (keys[i+1] === 'children') {
-						result.push(values.join(','));
-					}
-				} else {
-					var childrenArr = obj.children;
-					if (childrenArr !== undefined) {
-						childrenArr.forEach((child) => {
-							csvString(keys, length, child);
-						});
-					}
-				}
-			};
-			
+			keys.forEach((key) => {
+				values.push(obj[key]);
+			});
+			result.push(values.join(','));
+			if (obj.children !== undefined) {
+				obj.children.forEach((child) => {
+					csvString(keys, length, child);
+				});
+			}
 		};
 
 		var keys = Object.keys(data);
+		var length = keys.length;
+		keys.splice(length - 1, 1);
 		result.push(keys);
-		csvString(keys, keys.length, data);
+		csvString(keys, length, data);
 
-		console.log('RESULT', result.join('\n'));
 
-		callback();
+		callback(result.join('\n'));
 	}
 }

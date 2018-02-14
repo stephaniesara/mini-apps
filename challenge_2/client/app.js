@@ -81,8 +81,12 @@ var send = (message) => {
 		url: 'http://127.0.0.1:3000/csv',
 		// contentType: 'json/application',
 		data: testObj2, // TODO: CHANGE FROM FOR TESTING ONLY
-		success: () => {
+		success: (data) => {
 			console.log('SUCCESS');
+			console.log('RECEIVED DATA', data);
+			console.log('TYPE', typeof(data));
+			document.getElementById('result').innerHTML = '<pre>' + data + '</pre>';
+			// $('#result').text('<pre>' + data + '</pre>');
 		},
 		error: (err) => {
 			console.log('ERROR');

@@ -10,8 +10,9 @@ module.exports = {
 	post: (req, res) => {
 		console.log('******POST REQUEST');
 		// console.log('BODY', req.body);
-		model.post(req.body, () => {
-			res.sendStatus(201);
+		model.post(req.body, (results) => {
+			console.log(results);
+			res.send(results);
 		});
 	}
 }
