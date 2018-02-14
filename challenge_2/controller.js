@@ -7,7 +7,7 @@ module.exports = {
 		post: (req, res) => {
 			console.log('POST REQUEST');
 			converter.convertToCsv(req.body, (results) => {
-				res.send(results);
+				res.json(results);
 			});
 		}
 	},
@@ -24,7 +24,7 @@ module.exports = {
 					try {
 						var json = JSON.parse(data);
 						converter.convertToCsv(JSON.parse(data), (results) => {
-							res.send(results);
+							res.json(results);
 						});
 					}
 					catch(e) {
