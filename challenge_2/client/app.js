@@ -37,7 +37,7 @@ var send = (message, path) => {
 		},
 		error: (err) => {
 			console.log('ERROR');
-			alert('invalid, please select file with valid JSON only');
+			alert('invalid, please submit valid JSON only');
 		}
 	})
 };

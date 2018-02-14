@@ -30,7 +30,6 @@ module.exports = {
 					catch(e) {
 						console.log(e);
 						res.status(404).send('error! select file with valid JSON only');
-						// alert('invalid, please submit valid JSON only');
 					}
 				}
 			})
