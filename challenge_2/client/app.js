@@ -12,6 +12,7 @@ var handleSubmit = (event) => {
 	try {
 		var json = JSON.parse(message);
 		send(json);
+		$("#textbox").val('');
 	}
 	catch(e) {
 		alert('invalid, please submit valid JSON only');
