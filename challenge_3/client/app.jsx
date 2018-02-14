@@ -9,7 +9,9 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-			<Board />
+			<Board
+			rows={[0, 1, 2, 3, 4, 5]}
+			columns={[0, 1, 2, 3, 4, 5, 6]}/>
 			</div>
 		);
 	}
@@ -23,30 +25,37 @@ class Board extends React.Component {
 	render() {
 		return (
 			<div className="board">
-				<Column />
-				<Column />
-				<Column />
-				<Column />
-				<Column />
-				<Column />
-				<Column />
+			{this.props.columns.map((elem) =>
+				<Column
+				x={elem}
+				rows={this.props.rows}
+				key={'' + elem}
+				/>
+			)}
 			</div>
 		);
 	}
 }
 
-var Column = () => (
-	<div className="column">
-	<div>
-	<Square />
-	<Square />
-	<Square />
-	<Square />
-	<Square />
-	<Square />
-	</div>
-	</div>
-);
+class Column extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+		return (
+			<div className="column">
+			{this.props.rows.map((elem) =>
+				<Square
+				x={this.props.x}
+				y={elem}
+				key={'' + this.props.x + elem}
+				/>
+			)}
+			</div>
+		);
+	}
+}
 
 var Square = () => (
 	<div className="square">
