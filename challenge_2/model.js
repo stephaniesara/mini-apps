@@ -18,12 +18,17 @@ module.exports = {
 			}
 		};
 
-		var keys = Object.keys(data);
-		var length = keys.length;
-		keys.splice(length - 1, 1);
-		result.push(keys);
-		csvStringify(keys, length, data);
-
+		var handleKeys = () => {
+			var keys = Object.getOwnPropertyNames(data);
+			if (keys[keys.length - 1] === 'children') {
+				keys.splice(-1, 1);
+			}
+			result.push(keys.join(','));
+			return keys;
+		}
+		
+		var keys = handleKeys();
+		csvStringify(keys, keys.length, data);
 		callback(result.join('\n'));
 	}
 }
