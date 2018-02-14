@@ -8,14 +8,15 @@ var controller = require('./controller');
 
 app.set('port', 3000);
 
+// middleware, matches to any path
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true})); // IMPT!!!
 app.use(morgan('dev'));
 app.use(cors());
 
-app.get('/csv', controller.get);
+app.post('/csv', controller.csv.post);
 
-app.post('/csv', controller.post);
+app.post('/file', controller.file.post);
 
 app.use(express.static('client'));
 

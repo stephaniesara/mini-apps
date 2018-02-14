@@ -11,7 +11,7 @@ var handleSubmit = (event) => {
 	var message = $("#textbox").val();
 	try {
 		var json = JSON.parse(message);
-		send(json);
+		send(json, 'csv');
 		$("#textbox").val('');
 	}
 	catch(e) {
@@ -19,10 +19,17 @@ var handleSubmit = (event) => {
 	}
 };
 
-var send = (message) => {
+var handleFileSelect = (event) => {
+	console.log('file selected!');
+	var filename = event.target.files[0].name;
+	send({filename: filename}, 'file');
+};
+
+
+var send = (message, path) => {
 	$.ajax({
 		method: 'POST',
-		url: 'http://127.0.0.1:3000/csv',
+		url: 'http://127.0.0.1:3000/' + path,
 		// contentType: 'json/application',
 		data: message,
 		success: (data) => {
@@ -30,6 +37,7 @@ var send = (message) => {
 		},
 		error: (err) => {
 			console.log('ERROR');
+			alert('invalid, please select file with valid JSON only');
 		}
 	})
 };

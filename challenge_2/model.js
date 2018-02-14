@@ -1,19 +1,19 @@
 module.exports = {
-	get: (callback) => {
-	},
 
 	post: (data, callback) => {
 		var result = [];
 
-		var csvStringify = (keys, length, obj) => {
+		var convertToCsv = (keys, length, obj) => {
 			var values = [];
 			keys.forEach((key) => {
-				values.push(obj[key]);
+				if (obj[key]) {
+					values.push(obj[key]);
+				}
 			});
 			result.push(values.join(','));
 			if (obj.children !== undefined) {
 				obj.children.forEach((child) => {
-					csvStringify(keys, length, child);
+					convertToCsv(keys, length, child);
 				});
 			}
 		};
@@ -28,7 +28,7 @@ module.exports = {
 		}
 		
 		var keys = handleKeys();
-		csvStringify(keys, keys.length, data);
+		convertToCsv(keys, keys.length, data);
 		callback(result.join('\n'));
 	}
 }
