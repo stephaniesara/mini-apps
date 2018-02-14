@@ -1,9 +1,9 @@
 module.exports = {
 
-	post: (data, callback) => {
+	convertToCsv: (data, callback) => {
 		var result = [];
 
-		var convertToCsv = (keys, length, obj) => {
+		var convertRow = (keys, length, obj) => {
 			var values = [];
 			keys.forEach((key) => {
 				if (obj[key]) {
@@ -13,7 +13,7 @@ module.exports = {
 			result.push(values.join(','));
 			if (obj.children !== undefined) {
 				obj.children.forEach((child) => {
-					convertToCsv(keys, length, child);
+					convertRow(keys, length, child);
 				});
 			}
 		};
@@ -28,7 +28,7 @@ module.exports = {
 		}
 		
 		var keys = handleKeys();
-		convertToCsv(keys, keys.length, data);
+		convertRow(keys, keys.length, data);
 		callback(result.join('\n'));
 	}
 }

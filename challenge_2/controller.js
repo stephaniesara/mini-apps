@@ -1,4 +1,4 @@
-var model = require('./model');
+var converter = require('./converter');
 var fs = require('fs');
 
 module.exports = {
@@ -6,7 +6,7 @@ module.exports = {
 	csv: {
 		post: (req, res) => {
 			console.log('POST REQUEST');
-			model.post(req.body, (results) => {
+			converter.convertToCsv(req.body, (results) => {
 				res.send(results);
 			});
 		}
@@ -23,7 +23,7 @@ module.exports = {
 				} else {
 					try {
 						var json = JSON.parse(data);
-						model.post(JSON.parse(data), (results) => {
+						converter.convertToCsv(JSON.parse(data), (results) => {
 							res.send(results);
 						});
 					}
