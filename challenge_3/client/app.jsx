@@ -32,12 +32,71 @@ class Board extends React.Component {
 	}
 
 	handleClick(col) {
+
+		var hasFourCol = (column, player) => {
+			var result = false;
+			var count = 0;
+			for (var i = column.length - 1; i >= 0; i--) {
+				if (column[i] === player) {
+					count++;
+				} else {
+					count = 0;
+				}
+				if (count === 4) {
+					result = true;
+				}
+			}
+			console.log('hasFourCol', result);
+			return result;
+		};
+
+		var hasFourRow = (board, rowIndex, player) => {
+			var result = false;
+			var count = 0;
+			board.forEach((column) => {
+				if (column[rowIndex] === player) {
+					count++;
+				} else {
+					count = 0;
+				}
+				if (count === 4) {
+					result = true;
+				}
+			});
+			console.log('hasFourRow', result);
+			return result;
+		};
+
+		var hasFourMajorDiag = () => {
+
+		};
+
+		var hasFourMinorDiag = () => {
+
+		};		
+
+		var hasWinner = (board) => {
+			return hasFourCol(this.state.board[col], this.state.player)
+			|| hasFourRow(this.state.board, row, this.state.player);
+		};
+
+		var hasTie = () => {
+			return !this.state.board.some((col) => {
+				return col.some((square) => {
+					return square === 0;
+				});
+			});
+		};
+
+		var isGameOver = () => {
+			return hasWinner.call(this) || hasTie.call(this);
+		};
+
+		// START HERE
 		var row = this.props.numRows - 1;
 		while (this.state.board[col][row] !== 0) {
 			row--;
-			if (row < 0) { 
-				break;
-			}
+			if (row < 0) break;
 		}
 		if (row < 0) {
 			console.log('that column is full! play in a different spot');
@@ -49,6 +108,11 @@ class Board extends React.Component {
 				board: boardCopy,
 				player: nextPlayer
 			});
+			if (isGameOver.call(this)) {
+				console.log('game over!')
+			} else {
+				console.log('keep playing!');
+			}
 		}
 	}
 
@@ -92,16 +156,6 @@ var Square = (props) => (
 
 // initialize
 var getInitialBoard = (cols, rows) => {
-	// CODE FOR A TERRIBLE NON-WORKING BOARD!!!!!!
-	// var board = [];
-	// var col = [];
-	// for (var i = 0; i < rows; i++) {
-	// 	col.push(0);
-	// }
-	// for (var i = 0; i < cols; i++) {
-	// 	board.push(col);
-	// }
-	// return board;
 	var board = [];
 	for (var i = 0; i < cols; i++) {
 		board[i] = new Array(rows).fill(0);
