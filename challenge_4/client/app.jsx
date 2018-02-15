@@ -13,7 +13,10 @@ class Board extends React.Component {
   
   handleClick(value) {
     console.log('clicked')
-    
+    this.setState({
+      // score: this.state.score + value,
+      // message: 'clicked!'
+    });
   }
   
   render() {
