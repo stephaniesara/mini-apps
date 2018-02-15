@@ -13,8 +13,8 @@ class App extends React.Component {
 			<div>
 			<Board
 			numRows="6"
-			rows={[0, 1, 2, 3, 4, 5]}
-			columns={[0, 1, 2, 3, 4, 5, 6]}
+			// rows={[0, 1, 2, 3, 4, 5]}
+			// columns={[0, 1, 2, 3, 4, 5, 6]}
 			board={this.props.board}
 			/>
 			</div>
@@ -59,11 +59,12 @@ class Board extends React.Component {
 	render() {
 		return (
 			<div className="board">
-			{this.props.columns.map((elem) =>
+			{this.props.board.map((elem) =>
 				<Column
-				x={elem}
-				rows={this.props.rows}
-				key={'' + elem}
+				colArr={elem}
+				// x={elem}
+				// rows={this.props.rows}
+				// key={'' + elem}
 				handleClick={this.handleClick.bind(this)}
 				/>
 			)}
@@ -80,11 +81,14 @@ var Column = (props) => (
 	</button>
 
 	<div>
-	{props.rows.map((elem) =>
+	{props.colArr.map((elem) =>
 		<Square
-		x={props.x}
-		y={elem}
-		key={'' + props.x + elem}
+		val={elem}
+		class={elem === 0 ? "empty" : (elem === 1 ? "player1" : "player2")}
+		// className={elem === 0 ? 'blue' : 'green'}
+		// x={props.x}
+		// y={elem}
+		// key={'' + props.x + elem}
 		/>
 	)}
 	</div>
@@ -94,8 +98,9 @@ var Column = (props) => (
 
 // square!
 var Square = (props) => (
-	<div className="square">
+	<div className={props.class}>
 	<div>
+	{props.val}
 	</div>
 	</div>
 );
@@ -105,7 +110,7 @@ var getInitialBoard = (cols, rows) => {
 	var board = [];
 	var col = [];
 	for (var i = 0; i < rows; i++) {
-		col.push(false);
+		col.push(0);
 		// col.push(i);
 	}
 	for (var i = 0; i < cols; i++) {
