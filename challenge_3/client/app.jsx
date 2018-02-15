@@ -13,8 +13,6 @@ class App extends React.Component {
 			<div>
 			<Board
 			numRows="6"
-			// rows={[0, 1, 2, 3, 4, 5]}
-			// columns={[0, 1, 2, 3, 4, 5, 6]}
 			board={this.props.board}
 			/>
 			</div>
@@ -33,39 +31,36 @@ class Board extends React.Component {
 		}
 	}
 
-	handleClick(x) {
-		console.log('clicked!')
-		var col = this.state.board[x];
-		// col[5] = 2;
-		// col[4] = 2;
-		// col[4] = 2;
-		// col[3] = 2;
-		// col[2] = 2;
-		// col[1] = 2;
-		// col[0] = 2;
-		// console.log(col);
-		var index = this.props.numRows - 1;
-		while (col[index]) {
-			index--;
-			if (index < 0) break;
+	handleClick(col) {
+		var row = this.props.numRows - 1;
+		while (this.state.board[col][row] !== 0) {
+			row--;
+			if (row < 0) { 
+				break;
+			}
 		}
-		if (index < 0) {
-			console.log('that column is already full, you can\'t play there!');
+		if (row < 0) {
+			console.log('that column is full! play in a different spot');
 		} else {
-			this.state.board[index] = this.state.player;
+			var boardCopy = Object.assign(this.state.board);
+			boardCopy[col][row] = this.state.player;
+			var nextPlayer = this.state.player % 2 === 0 ? 1 : 2;
+			this.setState({
+				board: boardCopy,
+				player: nextPlayer
+			});
 		}
 	}
 
 	render() {
 		return (
 			<div className="board">
-			{this.props.board.map((elem) =>
+			{this.props.board.map((elem, index) =>
 				<Column
 				colArr={elem}
-				// x={elem}
-				// rows={this.props.rows}
-				// key={'' + elem}
+				colIndex={index}
 				handleClick={this.handleClick.bind(this)}
+				key={index}
 				/>
 			)}
 			</div>
@@ -75,23 +70,16 @@ class Board extends React.Component {
 
 // column!
 var Column = (props) => (
-	<div className="column">
-	<button onClick={() => props.handleClick(props.x)}>
-		click here
-	</button>
+	<div className="column" onClick={() => props.handleClick(props.colIndex)}>
 
-	<div>
-	{props.colArr.map((elem) =>
+
+	{props.colArr.map((elem, index) =>
 		<Square
-		val={elem}
 		class={elem === 0 ? "empty" : (elem === 1 ? "player1" : "player2")}
-		// className={elem === 0 ? 'blue' : 'green'}
-		// x={props.x}
-		// y={elem}
-		// key={'' + props.x + elem}
+		key={index}
+
 		/>
 	)}
-	</div>
 	</div>
 );
 
@@ -99,24 +87,25 @@ var Column = (props) => (
 // square!
 var Square = (props) => (
 	<div className={props.class}>
-	<div>
-	{props.val}
-	</div>
 	</div>
 );
 
 // initialize
 var getInitialBoard = (cols, rows) => {
+	// CODE FOR A TERRIBLE NON-WORKING BOARD!!!!!!
+	// var board = [];
+	// var col = [];
+	// for (var i = 0; i < rows; i++) {
+	// 	col.push(0);
+	// }
+	// for (var i = 0; i < cols; i++) {
+	// 	board.push(col);
+	// }
+	// return board;
 	var board = [];
-	var col = [];
-	for (var i = 0; i < rows; i++) {
-		col.push(0);
-		// col.push(i);
-	}
 	for (var i = 0; i < cols; i++) {
-		board.push(col);
+		board[i] = new Array(rows).fill(0);
 	}
-	console.log(board);
 	return board;
 };
 
