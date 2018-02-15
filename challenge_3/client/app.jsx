@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import $ from 'jquery';
 
 
 // app!
@@ -15,6 +16,7 @@ class App extends React.Component {
 			numRows="6"
 			board={this.props.board}
 			/>
+			<div id="message">Welcome to connect four! Are ya ready?</div>
 			</div>
 		);
 	}
@@ -46,7 +48,6 @@ class Board extends React.Component {
 					result = true;
 				}
 			}
-			console.log('hasFourCol', result);
 			return result;
 		};
 
@@ -63,21 +64,21 @@ class Board extends React.Component {
 					result = true;
 				}
 			});
-			console.log('hasFourRow', result);
 			return result;
 		};
 
-		var hasFourMajorDiag = () => {
-
+		var hasFourMajorDiag = (board, col, row, player) => {
 		};
 
-		var hasFourMinorDiag = () => {
+		var hasFourMinorDiag = (board, col, row, player) => {
 
 		};		
 
 		var hasWinner = (board) => {
 			return hasFourCol(this.state.board[col], this.state.player)
-			|| hasFourRow(this.state.board, row, this.state.player);
+			|| hasFourRow(this.state.board, row, this.state.player)
+			// || hasFourMajorDiag(this.state.board, col, row, this.state.player)
+			// || hasFourMinorDiag(this.state.board, col, row, this.state.player);
 		};
 
 		var hasTie = () => {
@@ -89,17 +90,27 @@ class Board extends React.Component {
 		};
 
 		var isGameOver = () => {
-			return hasWinner.call(this) || hasTie.call(this);
+			if (hasWinner.call(this)) {
+				$('#message').html('game over!! player ' + this.state.player + ' is the winner!');
+				return true;
+			} else if (hasTie.call(this)) {
+				$('#message').html('game over!! both players tied!');
+				return true;
+			}
+			return false;
 		};
 
 		// START HERE
+		if (!this.state.playing) {
+			return;
+		}
 		var row = this.props.numRows - 1;
 		while (this.state.board[col][row] !== 0) {
 			row--;
 			if (row < 0) break;
 		}
 		if (row < 0) {
-			console.log('that column is full! play in a different spot');
+			$('#message').html('that column is full, play in a different spot:)');
 		} else {
 			var boardCopy = Object.assign(this.state.board);
 			boardCopy[col][row] = this.state.player;
@@ -109,9 +120,9 @@ class Board extends React.Component {
 				player: nextPlayer
 			});
 			if (isGameOver.call(this)) {
-				console.log('game over!')
+				this.state.playing = false;
 			} else {
-				console.log('keep playing!');
+				$('#message').html('keep playing, it\'s player ' + this.state.player + '\'s turn');
 			}
 		}
 	}
