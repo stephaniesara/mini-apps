@@ -2,12 +2,68 @@
 <html>
 <head>
   <title> </title>
-  <style> </style>
+  <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+  <style>
+    .container {
+      display: flex;
+      width: 350px;
+      height: 250px;
+      flex-direction: column;
+      /*justify-content: center;*/
+      align-items: center;
+      border: 1px solid grey;
+      /*align-content: center;*/
+  }
+    .button-board {
+      width: 300px;
+      height: 50px;
+      margin: auto;
+      /*border: 1px solid grey;*/
+      display: flex;
+      flex-direction: row;
+    }
+    .score-board {
+      width: 250px;
+      height: 100px;
+      margin: auto;
+      /*border: 1px solid grey; */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .button {
+      width: 25px;
+      height: 25px;
+      margin: auto;
+      border: 1px solid grey; 
+      text-align: center;
+      font-weight: bold;
+      vertical-align: center;
+      line-height: 30px;
+      font-size: 14px;
+    }
+    .title {
+      font-family: 'Sofia';
+    }
+    #frame, #score, #message {
+      text-align: left;
+    }
+    #frame, #score {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    #message {
+      margin-top: 30px;
+      font-family: 'arial';
+      font-style: italic;
+    }
+  </style>
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
   </head>
   <body>
-    <h1>Bowling!</h1>
-    <div id="app">this is where the app goes
-    </div>
+    <h1 class="title">Let's bowl!</h1>
+      <div id="app">this is where the app goes
+      </div>
     <script src="bundle.js"></script>
   </body>
 </html>
