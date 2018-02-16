@@ -1,29 +1,40 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Scorekeep from './scorekeep.js';
 
 class Board extends React.Component {
   constructor(props) {
     super(props);
+    var scorekeep = new Scorekeep();
     this.state = {
       score: 0,
       frame: 1,
-      message: 'ready to get your bowling on?'
+      isFirstBowl: true,
+      message: 'ready to get your bowling on?',
+      scorekeep: scorekeep
     }
   }
   
   handleClick(value) {
-    console.log('clicked')
+    console.log('clicked');
+    // console.log(this.state.scorekeep.getScore());
+    // var newScore = this.state.scorekeep.addBowl(value);
+    // console.log(newScore);
+    
+    var nextFrame = this.state.scorekeep.getNextFrame(this.state.frame);
     this.setState({
-      // score: this.state.score + value,
+      score: this.state.score + value,
+      isFirstBowl: !this.state.isFirstBowl,
+      frame: nextFrame
       // message: 'clicked!'
     });
+    
   }
   
   render() {
     return (
       <div className="container">
         <ButtonBoard
-        buttons={this.props.buttons}
         handleClick={this.handleClick.bind(this)}
         />
         <ScoreBoard 
@@ -44,9 +55,9 @@ class ButtonBoard extends React.Component {
   render() {
     return (
       <div className="button-board">
-      {this.props.buttons.map((elem, index) => 
+      {new Array(11).fill(0).map((elem, index) => 
         <Button
-        value={elem}
+        value={index}
         key={index}
         handleClick={this.props.handleClick}
         />
@@ -92,6 +103,6 @@ class ScoreBoard extends React.Component {
 
 
 ReactDOM.render(
-  <Board buttons={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}/>,
+  <Board />,
   document.getElementById('app')
 );
